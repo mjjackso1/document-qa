@@ -1,63 +1,47 @@
 import streamlit as st
 from openai import OpenAI
+from PyPDF2 import PdfReader
 
-# Show title and description.
-st.title("📄 Document question answering")
-st.write(
-    "Upload a document below and ask a question about it – GPT will answer! "
-    "To use this app, you need to provide an OpenAI API key, which you can get "
-    "[here](https://platform.openai.com/account/api-keys)."
+st.title("📄 Lab 2 - Document summarizer")
+st.write("Upload a document and pick how you want it summarized.")
+
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
+language = st.sidebar.selectbox(
+    "Output language",
+    ["English", "Spanish", "French", "Chinese"],
 )
 
-# Ask user for their OpenAI API key via `st.text_input`.
-# Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
-# via `st.secrets`.
-openai_api_key = st.text_input("OpenAI API Key", type="password")
+summary_type = st.sidebar.selectbox(
+    "Summary type",
+    [
+        "Summarize in 100 words",
+        "Summarize in 2 connecting paragraphs",
+        "Summarize in 5 bullet points",
+    ],
+)
 
-if not openai_api_key:
-    st.info("Please add your OpenAI API key to continue.", icon="🗝️")
-else:
+advanced = st.sidebar.checkbox("Use advanced model")
+effort = "medium" if advanced else "none"
+st.sidebar.write(f"Using: gpt-5.5 (effort: {effort})")
 
-    # Create an OpenAI client.
-    client = OpenAI(api_key=openai_api_key)
+uploaded_file = st.file_uploader("Upload a document", type=("txt", "md", "pdf"))
 
-    # Validate the API key as soon as it is entered.
-    try:
-        client.models.list()
-        st.success("API key is valid!")
-    except Exception:
-        st.error("Invalid API key. Please try again.")
-        st.stop()
-
-    # Let the user upload a file via `st.file_uploader`.
-    uploaded_file = st.file_uploader(
-        "Upload a document (.txt or .md)", type=("txt", "md")
-    )
-
-    # Ask the user for a question via `st.text_area`.
-    question = st.text_area(
-        "Now ask a question about the document!",
-        placeholder="Can you give me a short summary?",
-        disabled=not uploaded_file,
-    )
-
-    if uploaded_file and question:
-
-        # Process the uploaded file and question.
+if uploaded_file:
+    if uploaded_file.name.endswith(".pdf"):
+        reader = PdfReader(uploaded_file)
+        document = "".join(page.extract_text() or "" for page in reader.pages)
+    else:
         document = uploaded_file.read().decode()
-        messages = [
-            {
-                "role": "user",
-                "content": f"Here's a document: {document} \n\n---\n\n {question}",
-            }
-        ]
 
-        # Generate an answer using the OpenAI API.
-        stream = client.chat.completions.create(
-            model="gpt-5-nano",
-            messages=messages,
-            stream=True,
+    instruction = f"{summary_type}. Write the summary in {language}."
+
+    try:
+        response = client.responses.create(
+            model="gpt-5.5",
+            input=f"Here's a document: {document}\n\n---\n\n{instruction}",
+            reasoning={"effort": effort},
         )
-
-        # Stream the response to the app using `st.write_stream`.
-        st.write_stream(stream)
+        st.write(response.output_text)
+    except Exception as e:
+        st.error(f"Something went wrong: {e}")
