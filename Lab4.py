@@ -1,10 +1,6 @@
 import sys
-import sqlite3
-
-# ChromaDB requires SQLite 3.35 or newer.
-if sqlite3.sqlite_version_info < (3, 35, 0):
-    import pysqlite3
-    sys.modules["sqlite3"] = pysqlite3
+import pysqlite3
+sys.modules["sqlite3"] = pysqlite3
 
 from pathlib import Path
 
