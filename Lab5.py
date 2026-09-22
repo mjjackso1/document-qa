@@ -150,5 +150,5 @@ def main():
             st.error(f"Could not prepare suggestions: {error}")
 
 
-#if __name__ == "__main__":
-    #main()
+if __name__ == "__main__":
+    main()
