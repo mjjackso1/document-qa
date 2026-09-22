@@ -1,5 +1,3 @@
-"""Lab 5: clothing and outdoor activity advice using live weather."""
-
 import json
 from urllib.parse import quote
 
@@ -152,5 +150,5 @@ def main():
             st.error(f"Could not prepare suggestions: {error}")
 
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+    #main()
