@@ -9,3 +9,5 @@ lab4 = st.Page("Lab4.py", title="Lab 4")
 lab5 = st.Page("Lab5.py", title="Lab 5", default=True)
 pg = st.navigation([lab5, lab4, lab3, lab2, lab1])
 pg.run()
+
+#.d
