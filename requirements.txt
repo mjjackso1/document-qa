@@ -4,3 +4,4 @@ PyPDF2
 chromadb
 pypdf
 pysqlite3-binary
+requests
