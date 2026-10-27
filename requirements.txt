@@ -5,3 +5,5 @@ chromadb
 pypdf
 pysqlite3-binary
 requests
+langchain>=1,<2
+langchain-openai>=1,<2
