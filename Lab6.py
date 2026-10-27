@@ -94,6 +94,21 @@ def get_advice(location):
     )
 
 
+# a. How many messages are there, and what is each one?
+# There were four messages: my question, the AI's weather tool request,
+# the weather tool's result, and the AI's final answer.
+
+# b. Which message is the model asking for the weather tool?
+# (Its content is empty. Where is the request?)
+# The second message requested the weather tool. The request was stored
+# in .tool_calls, which included the function name, arguments, and call ID.
+
+# c. In Lab 5, which lines of your code created each of those messages?
+# Lines 92–104 set up the starting messages. Line 115 added the AI's tool
+# request. Lines 119–127 ran the tool and added its result. Lines 129–133
+# called the model again and read the final answer.
+
+
 def main():
     st.title("🌤️ Lab 6: LangChain What to Wear Bot")
     st.write("Enter a city or landmark for today's clothing and outdoor activity advice.")
