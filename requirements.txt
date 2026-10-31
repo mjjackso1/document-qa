@@ -7,3 +7,5 @@ pysqlite3-binary
 requests
 langchain>=1,<2
 langchain-openai>=1,<2
+mutagen>=1.47,<2
+Pillow
