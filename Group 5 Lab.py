@@ -11,7 +11,7 @@ from PIL import Image
 
 MODEL = "gpt-4.1-mini"
 TRANSCRIPTION_MODEL = "gpt-transcribe"
-MAX_FILE_BYTES = 5 * 1024 * 1024
+MAX_FILE_BYTES = 5_000_000
 MAX_AUDIO_SECONDS = 60
 IMAGE_FORMATS = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg"}
 AUDIO_FORMATS = {".mp3": "audio/mpeg", ".wav": "audio/wav", ".m4a": "audio/mp4"}
@@ -114,7 +114,7 @@ def main():
     kind = st.radio("Content type", ["Image", "Audio"], horizontal=True)
     formats = IMAGE_FORMATS if kind == "Image" else AUDIO_FORMATS
     st.caption("PNG, JPG, JPEG images or MP3, WAV, M4A audio. Maximum 5 MB; audio must be 60 seconds or less.")
-    upload = st.file_uploader(f"Upload an {kind.lower()}", type=[ext[1:] for ext in formats], key=f"group5_{kind}")
+    upload = st.file_uploader(f"Upload an {kind.lower()}", type=[ext[1:] for ext in formats], key=f"group5_{kind}", max_upload_size=5)
     valid = False
     if upload is not None:
         try:
