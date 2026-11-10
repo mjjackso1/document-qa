@@ -9,3 +9,9 @@ langchain>=1,<2
 langchain-openai>=1,<2
 mutagen>=1.47,<2
 Pillow
+
+# Lab 8: CPU-only retrieval and re-ranking
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch>=2.6,<3
+sentence-transformers>=3,<6
+numpy>=1.26,<3
