@@ -10,7 +10,7 @@ lab5 = st.Page("Lab5.py", title="Lab 5")
 lab6 = st.Page("Lab6.py", title="Lab 6")
 group5 = st.Page("Group 5 Lab.py", title="Group 5 Lab")
 lab8 = st.Page("Lab8 Rerank.py", title="Lab8 Rerank", default=True)
-pg = st.navigation([group5, lab8, lab6, lab5, lab4, lab3, lab2, lab1])
+pg = st.navigation([lab8, group5, lab6, lab5, lab4, lab3, lab2, lab1])
 pg.run()
 
 #.d
